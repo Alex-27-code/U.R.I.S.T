@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface-tint": "#49607c",
+                    "secondary-fixed-dim": "#8dcdff",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#e1e3e4",
+                    "surface-dim": "#d9dadb",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "on-primary-fixed-variant": "#314863",
+                    "tertiary-container": "#002c3e",
+                    "outline-variant": "#c3c6ce",
+                    "tertiary-fixed-dim": "#7ad0ff",
+                    "primary-fixed-dim": "#b0c9e8",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1d",
+                    "surface-container-low": "#f3f4f5",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "on-background": "#191c1d",
+                    "on-tertiary-fixed": "#001e2c",
+                    "on-secondary-fixed-variant": "#004b70",
+                    "on-primary-fixed": "#011d35",
+                    "primary": "#00152a",
+                    "primary-container": "#102a43",
+                    "surface": "#f8f9fa",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "outline": "#74777e",
+                    "on-surface-variant": "#43474d",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-primary-container": "#7a92b0",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-container": "#003f5f",
+                    "on-secondary-fixed": "#001e30",
+                    "secondary-container": "#00affe",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#b0c9e8",
+                    "surface-container": "#edeeef",
+                    "secondary-fixed": "#cae6ff",
+                    "secondary": "#006493",
+                    "tertiary-fixed": "#c3e8ff",
+                    "on-tertiary-container": "#009acf",
+                    "background": "#f8f9fa",
+                    "surface-container-highest": "#e1e3e4",
+                    "tertiary": "#001621",
+                    "primary-fixed": "#d1e4ff"
+                },
+                fontFamily: {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
+        color: #191c1d;
+    }
+</style>
+<title>{{ title|default('Ю.Р.И.С.Т.') }}</title>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 bg-surface-container-lowest border-b border-outline-variant/20 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel">gavel</span>
+            <a href="/" class="text-xl font-semibold text-primary tracking-tight">Ю.Р.И.С.Т.</a>
+        </div>
+        <div class="hidden md:flex items-center gap-12">
+            <div class="flex gap-8 text-sm font-bold uppercase tracking-wider text-on-surface-variant">
+                <a class="nav-link hover:text-secondary transition-colors" href="/#home-section">Главная</a>
+                <a class="nav-link hover:text-secondary transition-colors" href="/#about-section">О нас</a>
+                <a class="nav-link hover:text-secondary transition-colors" href="/#contacts-section">Контакты</a>
+                {% if current_user.is_authenticated and current_user.role != 'client' %}
+                    <a class="nav-link hover:text-secondary transition-colors" href="/clients_department">Отдел клиентов</a>
+                {% endif %}
+            </div>
+            
+            {% if current_user.is_authenticated %}
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-medium text-primary">{{ current_user.name }}</span>
+                    <a href="/logout" class="bg-outline text-on-primary px-4 py-2 rounded-lg font-medium hover:bg-outline-variant transition-all text-sm">Выйти</a>
+                </div>
+            {% else %}
+                <a href="/login" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-medium hover:bg-primary-container transition-all">
+                    Войти / Записаться
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow w-full max-w-7xl mx-auto px-6 py-16 md:py-24">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="bg-primary-container text-on-primary-container py-16 px-6 mt-auto">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 border-b border-outline-variant/10 pb-12 mb-12">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel">gavel</span>
+                    <span class="text-xl font-semibold text-on-primary tracking-tight">Ю.Р.И.С.Т.</span>
+                </div>
+                <p class="max-w-sm text-sm leading-relaxed opacity-70">
+                    Ваш надежный партнер в юридических вопросах. Современные решения для правовой защиты.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-x-12 gap-y-6">
+                <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#home-section">Главная</a>
+                <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#about-section">О нас</a>
+                <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#contacts-section">Контакты</a>
+                <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#">Политика конфиденциальности</a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-xs opacity-50">© 2024 Ю.Р.И.С.Т. Все права защищены.</p>
+            <div class="flex gap-6">
+                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="phone">phone</span>
+                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="mail">mail</span>
+                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="location_on">location_on</span>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

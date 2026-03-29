@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20 shadow-sm mt-12">
+    <h2 class="text-3xl font-semibold text-primary mb-6 text-center">Регистрация</h2>
+    
+    {% if message %}
+        <div class="bg-error-container text-on-error-container p-4 rounded-lg mb-6">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {{ form.hidden_tag() }}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                {{ form.name.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.name(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary") }}
+                {% for error in form.name.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+            
+            <div>
+                {{ form.email.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.email(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary") }}
+                {% for error in form.email.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+            
+            <div>
+                {{ form.password.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.password(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary") }}
+                {% for error in form.password.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+            
+            <div>
+                {{ form.password_again.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.password_again(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary") }}
+                {% for error in form.password_again.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            {{ form.role.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+            {{ form.role(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary cursor-pointer", onchange="toggleWorkerFields()") }}
+            {% for error in form.role.errors %}
+                <p class="text-error text-xs mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div id="worker-fields" class="space-y-6 hidden">
+            <div class="p-4 bg-tertiary-fixed rounded-lg text-on-tertiary-fixed text-sm mb-4">
+                Вы выбрали регистрацию в качестве специалиста/соискателя. Пожалуйста, заполните доп. информацию.
+            </div>
+            
+            <div>
+                {{ form.about.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.about(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", rows="4") }}
+                {% for error in form.about.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+            
+            <div>
+                {{ form.experience_photo.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.experience_photo(class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-container file:text-on-primary-container hover:file:bg-primary hover:file:text-on-primary cursor-pointer transition-all") }}
+                {% for error in form.experience_photo.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="pt-4">
+            {{ form.submit(class="w-full bg-primary text-on-primary py-3 rounded-lg font-semibold hover:bg-primary-container transition-all cursor-pointer") }}
+        </div>
+    </form>
+    
+    <div class="mt-6 text-center text-sm text-on-surface-variant">
+        Уже есть аккаунт? <a href="/login" class="text-secondary hover:underline font-medium">Войти</a>
+    </div>
+</div>
+
+<script>
+function toggleWorkerFields() {
+    var role = document.getElementById('role').value;
+    var workerFields = document.getElementById('worker-fields');
+    if (role === 'worker' || role === 'job_seeker') {
+        workerFields.classList.remove('hidden');
+    } else {
+        workerFields.classList.add('hidden');
+    }
+}
+// Run on load
+document.addEventListener("DOMContentLoaded", toggleWorkerFields);
+</script>
+{% endblock %}

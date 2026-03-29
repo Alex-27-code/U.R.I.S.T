@@ -1,262 +1,61 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html lang="ru"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "surface-tint": "#49607c",
-              "secondary-fixed-dim": "#8dcdff",
-              "on-tertiary": "#ffffff",
-              "surface-variant": "#e1e3e4",
-              "surface-dim": "#d9dadb",
-              "on-tertiary-fixed-variant": "#004c69",
-              "on-primary-fixed-variant": "#314863",
-              "tertiary-container": "#002c3e",
-              "outline-variant": "#c3c6ce",
-              "tertiary-fixed-dim": "#7ad0ff",
-              "primary-fixed-dim": "#b0c9e8",
-              "on-error-container": "#93000a",
-              "on-surface": "#191c1d",
-              "surface-container-low": "#f3f4f5",
-              "on-error": "#ffffff",
-              "error": "#ba1a1a",
-              "on-primary": "#ffffff",
-              "surface-bright": "#f8f9fa",
-              "on-background": "#191c1d",
-              "on-tertiary-fixed": "#001e2c",
-              "on-secondary-fixed-variant": "#004b70",
-              "on-primary-fixed": "#011d35",
-              "primary": "#00152a",
-              "primary-container": "#102a43",
-              "surface": "#f8f9fa",
-              "surface-container-lowest": "#ffffff",
-              "inverse-surface": "#2e3132",
-              "outline": "#74777e",
-              "on-surface-variant": "#43474d",
-              "inverse-on-surface": "#f0f1f2",
-              "on-primary-container": "#7a92b0",
-              "surface-container-high": "#e7e8e9",
-              "on-secondary-container": "#003f5f",
-              "on-secondary-fixed": "#001e30",
-              "secondary-container": "#00affe",
-              "error-container": "#ffdad6",
-              "on-secondary": "#ffffff",
-              "inverse-primary": "#b0c9e8",
-              "surface-container": "#edeeef",
-              "secondary-fixed": "#cae6ff",
-              "secondary": "#006493",
-              "tertiary-fixed": "#c3e8ff",
-              "on-tertiary-container": "#009acf",
-              "background": "#f8f9fa",
-              "surface-container-highest": "#e1e3e4",
-              "tertiary": "#001621",
-              "primary-fixed": "#d1e4ff"
-            },
-            fontFamily: {
-              "headline": ["Inter"],
-              "body": ["Inter"],
-              "label": ["Inter"]
-            },
-            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-          },
-        },
-      }
-    </script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f8f9fa;
-        color: #191c1d;
-      }
-    </style>
-</head>
-<body class="bg-surface text-on-surface antialiased">
-<!-- TopNavBar -->
-<nav class="sticky top-0 z-50 bg-surface-container-lowest border-b border-outline-variant/20 px-6 py-4">
-<div class="max-w-7xl mx-auto flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel" style="">gavel</span>
-<span class="text-xl font-semibold text-primary tracking-tight" style="">Ю.Р.И.С.Т.</span>
-</div>
-<div class="hidden md:flex items-center gap-12">
-<div class="flex gap-8 text-sm font-bold uppercase tracking-wider text-on-surface-variant">
-<a class="nav-link hover:text-secondary transition-colors text-secondary" href="#" data-target="home-section" style="">Главная</a>
-<a class="nav-link hover:text-secondary transition-colors" href="#" data-target="about-section" style="">О нас</a>
-<a class="nav-link hover:text-secondary transition-colors" href="#" data-target="contacts-section" style="">Контакты</a>
-</div>
-<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-medium hover:bg-primary-container transition-all" style="">
-                    Записаться
-                </button>
-</div>
-</div>
-</nav>
-<main class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+{% block content %}
 <div id="home-section" class="tab-content">
 <!-- Hero Section -->
 <header class="mb-20">
-<h1 class="text-6xl font-semibold text-primary mb-6 max-w-3xl leading-[1.1]" style="">
-                Профессиональная юридическая помощь в один клик.
-            </h1>
-<p class="text-xl text-on-surface-variant max-w-2xl leading-relaxed" style="">
-                Забронируйте консультацию с ведущими юристами. Выберите удобное время и опишите ваш вопрос для эффективной подготовки к встрече.
+    <h1 class="text-6xl font-semibold text-primary mb-6 max-w-3xl leading-[1.1]">
+        Профессиональная юридическая помощь в один клик.
+    </h1>
+    <p class="text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-8">
+        Забронируйте консультацию с ведущими юристами. Выберите удобное время и опишите ваш вопрос для эффективной подготовки к встрече.
+    </p>
+
+    {% if not current_user.is_authenticated %}
+        <div class="flex gap-4">
+            <a href="/login" class="bg-primary text-on-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary-container transition-all">Войти</a>
+            <a href="/register" class="bg-secondary text-on-secondary px-8 py-3 rounded-lg font-semibold hover:bg-secondary-fixed transition-all border border-secondary shadow-md hover:shadow-lg">Зарегистрироваться</a>
+        </div>
+    {% else %}
+        <div class="bg-surface-container p-6 rounded-lg inline-block border border-outline-variant/30 text-left">
+            <h2 class="text-2xl font-bold text-primary mb-2">Добро пожаловать, {{ current_user.name }}!</h2>
+            <p class="text-on-surface-variant">Вы вошли как: 
+                <span class="font-semibold text-secondary">
+                    {% if current_user.role == 'client' %}Ищущий услугу (Клиент)
+                    {% elif current_user.role == 'worker' %}Рабочий / Юрист
+                    {% elif current_user.role == 'job_seeker' %}Ищущий работу
+                    {% endif %}
+                </span>
             </p>
+        </div>
+
+        {% if current_user.role == 'client' and lawyers %}
+        <div class="mt-16 text-left">
+            <h2 class="text-3xl font-semibold text-primary mb-6">Доступные юристы для записи</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for lawyer in lawyers %}
+                <a href="/lawyer/{{ lawyer.id }}" class="group bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 hover:shadow-lg transition-all hover:border-secondary flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-xl font-bold mb-4">
+                            <span class="material-symbols-outlined">person</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary group-hover:text-secondary transition-colors">{{ lawyer.name }}</h3>
+                        <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">{{ lawyer.about }}</p>
+                    </div>
+                    <div class="mt-6 font-semibold text-secondary flex items-center gap-2">
+                        <span>Записаться на прием</span>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
 </header>
-<!-- Booking Section (Asymmetric Bento Grid) -->
-<div class="grid grid-cols-12 gap-8">
-<!-- Calendar & Time Slots -->
-<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10">
-<div class="flex flex-col md:flex-row gap-12">
-<!-- Date Picker Placeholder -->
-<div class="flex-1">
-<div class="flex items-center justify-between mb-8">
-<h2 class="text-xl font-semibold text-primary" style="">Выберите дату</h2>
-<div class="flex gap-2">
-<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors" style="">
-<span class="material-symbols-outlined" data-icon="chevron_left" style="">chevron_left</span>
-</button>
-<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors" style="">
-<span class="material-symbols-outlined" data-icon="chevron_right" style="">chevron_right</span>
-</button>
 </div>
-</div>
-<!-- Custom Calendar UI -->
-<div class="grid grid-cols-7 gap-y-4 text-center">
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Пн</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Вт</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Ср</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Чт</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Пт</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Сб</div>
-<div class="text-[10px] font-bold uppercase text-outline tracking-widest pb-4" style="">Вс</div>
-<!-- Simple dates representation -->
-<div class="p-3 text-on-surface-variant opacity-30" style="">28</div>
-<div class="p-3 text-on-surface-variant opacity-30" style="">29</div>
-<div class="p-3 text-on-surface-variant opacity-30" style="">30</div>
-<div class="p-3 text-on-surface-variant" style="">1</div>
-<div class="p-3 text-on-surface-variant" style="">2</div>
-<div class="p-3 font-semibold bg-surface-container-low rounded-lg text-primary" style="">3</div>
-<div class="p-3 text-on-surface-variant" style="">4</div>
-<div class="p-3 text-on-surface-variant" style="">5</div>
-<div class="p-3 text-on-surface-variant" style="">6</div>
-<div class="p-3 bg-primary text-on-primary rounded-lg font-semibold shadow-sm" style="">7</div>
-<div class="p-3 text-on-surface-variant" style="">8</div>
-<div class="p-3 text-on-surface-variant" style="">9</div>
-<div class="p-3 text-on-surface-variant" style="">10</div>
-<div class="p-3 text-on-surface-variant" style="">11</div>
-</div>
-</div>
-<!-- Time Slots -->
-<div class="w-full md:w-64">
-<h2 class="text-xl font-semibold text-primary mb-8" style="">Доступное время</h2>
-<div class="space-y-3">
-<button class="w-full py-4 px-6 rounded-lg border border-outline-variant/30 hover:border-secondary transition-all text-left group" style="">
-<span class="text-lg font-medium text-primary block" style="">09:00</span>
-<span class="text-xs text-on-surface-variant" style="">Утренняя консультация</span>
-</button>
-<button class="w-full py-4 px-6 rounded-lg bg-secondary-container/10 border-2 border-secondary text-left" style="">
-<span class="text-lg font-medium text-primary block" style="">10:30</span>
-<span class="text-xs text-secondary font-medium" style="">Выбрано</span>
-</button>
-<button class="w-full py-4 px-6 rounded-lg border border-outline-variant/30 hover:border-secondary transition-all text-left" style="">
-<span class="text-lg font-medium text-primary block" style="">14:00</span>
-<span class="text-xs text-on-surface-variant" style="">Дневная консультация</span>
-</button>
-<button class="w-full py-4 px-6 rounded-lg border border-outline-variant/30 hover:border-secondary transition-all text-left" style="">
-<span class="text-lg font-medium text-primary block" style="">16:30</span>
-<span class="text-xs text-on-surface-variant" style="">Вечерний слот</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Side Info Card -->
-<div class="col-span-12 lg:col-span-4 space-y-8">
-<div class="bg-primary text-on-primary p-8 rounded-xl">
-<h3 class="text-2xl font-semibold mb-4" style="">Наши эксперты</h3>
-<p class="text-on-primary-container text-sm leading-relaxed mb-8" style="">
-                        Вас проконсультируют специалисты с опытом работы более 15 лет в области гражданского и трудового права.
-                    </p>
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
-<img alt="Юрист" class="w-full h-full object-cover" data-alt="Портрет профессионального юриста в костюме" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGAcGh8h2A8nz7h9fmK8a5KV6t7ambSDhwoIijaJPrDSIBLpQXKUD7gCXmtzkuWk9P1E-6JcJZprTfj0_VAiMK1Mfnx4XBCycWm4yV0VV_9iNGRiqlBrZz2thEp1x7-Vd0SN3EGg6RH9LpsuAU2RjV5Im-G3CJKxczf1JEsUEX0DEgVbmHx4yo9cryevO0pskVSg5MUMJfUhua4lGtoEeh0PZiHYLOGir03emSQC7o1S9k8T0J_f2M6oGySqRWAE-FsL37Etc_h5y9" style=""/>
-</div>
-<div>
-<p class="font-semibold" style="">Александр Волков</p>
-<p class="text-xs text-on-primary-container" style="">Старший партнер</p>
-</div>
-</div>
-</div>
-<div class="bg-surface-container-high p-8 rounded-xl border border-outline-variant/10">
-<span class="material-symbols-outlined text-secondary text-4xl mb-4" data-icon="verified_user" style="">verified_user</span>
-<h3 class="text-lg font-semibold text-primary mb-2" style="">Конфиденциальность</h3>
-<p class="text-sm text-on-surface-variant" style="">Все консультации защищены адвокатской тайной и строго анонимны.</p>
-</div>
-</div>
-<!-- Booking Form -->
-<div class="col-span-12 bg-surface-container-lowest p-8 md:p-12 rounded-xl border border-outline-variant/10 mt-8">
-<div class="max-w-4xl">
-<h2 class="text-3xl font-semibold text-primary mb-2" style="">Личные данные</h2>
-<p class="text-on-surface-variant mb-12" style="">Заполните форму ниже для завершения записи.</p>
-<form class="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-10">
-<!-- Full Name -->
-<div class="md:col-span-7">
-<label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-3" style="">ФИО</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-6 py-4 focus:ring-2 focus:ring-secondary/50 text-primary" placeholder="Введите полное имя" type="text"/>
-</div>
-<!-- Age -->
-<div class="md:col-span-5">
-<label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-3" style="">Возраст</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-6 py-4 focus:ring-2 focus:ring-secondary/50 text-primary" placeholder="Лет" type="number"/>
-</div>
-<!-- Gender Selection -->
-<div class="md:col-span-12">
-<label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-6" style="">Пол</label>
-<div class="flex gap-12">
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<div class="relative flex items-center justify-center">
-<input class="peer appearance-none w-6 h-6 border-2 border-outline-variant rounded-full checked:border-secondary transition-all" name="gender" type="radio"/>
-<div class="absolute w-3 h-3 bg-secondary rounded-full scale-0 peer-checked:scale-100 transition-transform"></div>
-</div>
-<span class="text-lg text-primary group-hover:text-secondary transition-colors" style="">Мужской</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<div class="relative flex items-center justify-center">
-<input class="peer appearance-none w-6 h-6 border-2 border-outline-variant rounded-full checked:border-secondary transition-all" name="gender" type="radio"/>
-<div class="absolute w-3 h-3 bg-secondary rounded-full scale-0 peer-checked:scale-100 transition-transform"></div>
-</div>
-<span class="text-lg text-primary group-hover:text-secondary transition-colors" style="">Женский</span>
-</label>
-</div>
-</div>
-<div class="md:col-span-12 pt-6">
-<button class="inline-flex items-center gap-3 bg-secondary text-on-primary px-12 py-5 rounded-lg font-semibold text-lg hover:bg-on-secondary-container transition-all shadow-lg shadow-secondary/20" style="" type="submit">
-<span class="" style="">Записаться</span>
-<span class="material-symbols-outlined" data-icon="arrow_forward" style="">arrow_forward</span>
-</button>
-<p class="mt-6 text-sm text-on-surface-variant" style="">
-                                Нажимая кнопку, вы соглашаетесь с условиями <a class="text-secondary underline underline-offset-4" href="#" style="">Политики конфиденциальности</a>.
-                            </p>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
+
+<!-- Add the remainder of the index components below -->
 
 <div id="about-section" class="tab-content hidden">
 <header class="mb-20">
@@ -278,35 +77,25 @@ Email: info@urist-zapis.ru<br>
 </p>
 </header>
 </div>
-</main>
-<!-- Footer -->
-<footer class="bg-primary-container text-on-primary-container py-16 px-6 mt-24">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 border-b border-outline-variant/10 pb-12 mb-12">
-<div>
-<div class="flex items-center gap-2 mb-4">
-<span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel" style="">gavel</span>
-<span class="text-xl font-semibold text-on-primary tracking-tight" style="">ЮристЗапись</span>
-</div>
-<p class="max-w-sm text-sm leading-relaxed opacity-70" style="">
-                        Ваш надежный партнер в юридических вопросах. Современные решения для правовой защиты.
-                    </p>
-</div>
-<div class="flex flex-wrap gap-x-12 gap-y-6">
-<a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#" style="">Главная</a>
-<a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#" style="">О нас</a>
-<a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#" style="">Контакты</a>
-<a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#" style="">Политика конфиденциальности</a>
-</div>
-</div>
-<div class="flex flex-col md:flex-row justify-between items-center gap-6">
-<p class="text-xs opacity-50" style="">© 2024 ЮристЗапись. Все права защищены.</p>
-<div class="flex gap-6">
-<span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="phone" style="">phone</span>
-<span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="mail" style="">mail</span>
-<span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="location_on" style="">location_on</span>
-</div>
-</div>
-</div>
-</footer>
-</body></html>
+
+<script>
+    // Example handling to show tabs when navigating from other pages or hashes
+    function showSection(id) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+    window.addEventListener('hashchange', () => {
+        let hash = window.location.hash.substring(1);
+        if (hash === 'home-section' || hash === 'about-section' || hash === 'contacts-section') {
+            showSection(hash);
+        }
+    });
+
+    if (window.location.hash) {
+        let hash = window.location.hash.substring(1);
+        if (hash === 'home-section' || hash === 'about-section' || hash === 'contacts-section') {
+            showSection(hash);
+        }
+    }
+</script>
+{% endblock %}

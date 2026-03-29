@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <header class="mb-12">
+        <h1 class="text-4xl font-semibold text-primary mb-4">Отдел клиентов</h1>
+        <p class="text-lg text-on-surface-variant">
+            Добро пожаловать в панель управления для юристов и соискателей. 
+            Здесь вы можете просматривать доступные заказы и запросы (Тестовый режим: сейчас видны все заявки).
+        </p>
+    </header>
+
+    {% if bookings %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {% for b in bookings %}
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm relative">
+            <div class="absolute top-4 right-4 bg-secondary text-on-secondary text-xs font-bold px-3 py-1 rounded-lg">
+                {{ b.date }} | {{ b.time }}
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-2 pt-6">{{ b.client.name }}</h3>
+            <div class="space-y-3 mb-4">
+                <p class="text-sm">
+                    <span class="text-on-surface-variant font-medium">К юристу:</span> 
+                    <span class="text-primary font-semibold">{{ b.lawyer.name }}</span>
+                </p>
+                <div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/20">
+                    <p class="text-xs text-on-surface-variant tracking-wider uppercase font-bold mb-1">Проблема клиента:</p>
+                    <p class="text-primary text-sm">{{ b.problem }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20 shadow-sm text-center py-20">
+        <span class="material-symbols-outlined text-6xl text-outline mb-4">inbox</span>
+        <h2 class="text-2xl font-semibold text-primary mb-2">Заказов пока нет</h2>
+        <p class="text-on-surface-variant">
+            В данный момент нет открытых заявок от клиентов. Возвращайтесь позже!
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
