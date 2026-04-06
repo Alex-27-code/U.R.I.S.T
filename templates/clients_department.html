@@ -28,6 +28,23 @@
                     <p class="text-primary text-sm">{{ b.problem }}</p>
                 </div>
             </div>
+            
+            <div class="mt-4 pt-4 border-t border-outline-variant/30">
+                {% if b.status == 'В ожидании' %}
+                <div class="flex gap-2">
+                    <form action="/booking_action/{{ b.id }}/accept" method="POST" class="flex-1">
+                        <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">Принять</button>
+                    </form>
+                    <form action="/booking_action/{{ b.id }}/reject" method="POST" class="flex-1">
+                        <button type="submit" class="w-full bg-error text-on-error py-2 rounded-lg text-sm font-semibold hover:bg-error-container hover:text-on-error-container transition">Отклонить</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="text-center w-full py-2 rounded-lg text-sm font-bold border border-outline-variant/20">
+                    Статус: <span class="{% if b.status == 'Принято' %}text-emerald-600{% else %}text-error{% endif %}">{{ b.status }}</span>
+                </div>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>

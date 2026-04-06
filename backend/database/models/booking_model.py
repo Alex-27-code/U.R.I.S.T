@@ -13,6 +13,7 @@ class BookingModel(SqlAlchemyBase):
     date = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     time = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     problem = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
+    status = sqlalchemy.Column(sqlalchemy.String, default='В ожидании')
     
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 

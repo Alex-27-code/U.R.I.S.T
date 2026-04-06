@@ -10,18 +10,18 @@ def default_data():
         return
         
     lawyer1 = UserModel(
-        name="Юрист Тестовый 1",
-        email="test1@lawyer.ru",
-        about="Специалист по семейным делам. Быстро и надежно.",
-        role="worker"
+        name="Алексей Смирнов",
+        email="smirnov@lawyer.ru",
+        about="Опытный юрист по семейному праву. Проведу подробную консультацию.",
+        role="lawyer"
     )
     lawyer1.set_password("123")
     
     lawyer2 = UserModel(
-        name="Юрист Тестовый 2",
-        email="test2@lawyer.ru",
-        about="Корпоративный юрист. 10 лет опыта в арбитраже.",
-        role="worker"
+        name="Елена Васильева",
+        email="vasilyeva@lawyer.ru",
+        about="Специалист по гражданским делам. Помогу разобраться с документами.",
+        role="lawyer"
     )
     lawyer2.set_password("123")
     
@@ -29,7 +29,7 @@ def default_data():
         name="Администратор",
         email="admin@mail.ru",
         about="Владелец портала.",
-        role="worker"
+        role="admin"
     )
     admin.set_password("admin")
 

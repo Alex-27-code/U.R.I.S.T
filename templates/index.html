@@ -21,18 +21,18 @@
             <h2 class="text-2xl font-bold text-primary mb-2">Добро пожаловать, {{ current_user.name }}!</h2>
             <p class="text-on-surface-variant">Вы вошли как: 
                 <span class="font-semibold text-secondary">
-                    {% if current_user.role == 'client' %}Ищущий услугу (Клиент)
-                    {% elif current_user.role == 'worker' %}Рабочий / Юрист
-                    {% elif current_user.role == 'job_seeker' %}Ищущий работу
+                    {% if current_user.role == 'client' %}Клиент
+                    {% elif current_user.role == 'lawyer' %}Юрист
+                    {% elif current_user.role == 'admin' %}Администратор
                     {% endif %}
                 </span>
             </p>
         </div>
 
-        {% if current_user.role == 'client' and lawyers %}
-        <div class="mt-16 text-left">
+        {% if lawyers %}
+        <div class="mt-8 text-left">
             <h2 class="text-3xl font-semibold text-primary mb-6">Доступные юристы для записи</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
                 {% for lawyer in lawyers %}
                 <a href="/lawyer/{{ lawyer.id }}" class="group bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 hover:shadow-lg transition-all hover:border-secondary flex flex-col justify-between">
                     <div>
@@ -40,15 +40,23 @@
                             <span class="material-symbols-outlined">person</span>
                         </div>
                         <h3 class="text-xl font-bold text-primary group-hover:text-secondary transition-colors">{{ lawyer.name }}</h3>
-                        <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">{{ lawyer.about }}</p>
+                        <p class="text-sm text-on-surface-variant mt-4 line-clamp-3">{{ lawyer.about }}</p>
                     </div>
                     <div class="mt-6 font-semibold text-secondary flex items-center gap-2">
-                        <span>Записаться на прием</span>
+                        <span>Перейти к записи</span>
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </div>
                 </a>
                 {% endfor %}
             </div>
+        </div>
+        {% endif %}
+        
+        {% if current_user.role == 'admin' %}
+        <div class="mt-8 text-left">
+            <h2 class="text-3xl font-semibold text-primary mb-6">Панель управления</h2>
+            <p class="text-on-surface-variant">Вы администратор системы. У вас есть доступ к отдельным разделам управления.</p>
+            <a href="/clients_department" class="inline-block mt-4 bg-primary text-on-primary px-6 py-2 rounded-lg font-semibold hover:bg-primary-container transition-all">Управление заявками</a>
         </div>
         {% endif %}
     {% endif %}

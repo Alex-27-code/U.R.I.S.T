@@ -28,9 +28,9 @@ def inject_user():
 @app.route('/')
 def index():
     lawyers = []
-    if current_user.is_authenticated and current_user.role == 'client':
+    if current_user.is_authenticated:
         db_sess = db_session.create_session()
-        lawyers = db_sess.query(UserModel).filter(UserModel.role == 'worker').all()
+        lawyers = db_sess.query(UserModel).filter(UserModel.role == 'lawyer').all()
     return render_template('index.html', lawyers=lawyers)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -90,7 +90,7 @@ def logout():
 @app.route('/clients_department')
 @login_required
 def clients_department():
-    if current_user.role == 'client':
+    if current_user.role != 'admin':
         return redirect('/')
     db_sess = db_session.create_session()
     # Показываем все заявки для тестирования
@@ -100,19 +100,20 @@ def clients_department():
 @app.route('/lawyer/<int:lawyer_id>', methods=['GET', 'POST'])
 @login_required
 def lawyer_profile(lawyer_id):
-    if current_user.role != 'client':
-        return redirect('/')
-    
     db_sess = db_session.create_session()
     lawyer = db_sess.get(UserModel, lawyer_id)
-    if not lawyer or lawyer.role != 'worker':
+    if not lawyer or lawyer.role != 'lawyer':
         return redirect('/')
 
+    slots = [f"{str(h).zfill(2)}:{str(m).zfill(2)}" for h in range(9, 19) for m in (0, 30) if not (h == 18 and m == 30)]
+
     bookings = db_sess.query(BookingModel).filter(BookingModel.lawyer_id == lawyer_id).all()
-    booked_times = [b.time for b in bookings]
+    booked_times = [b.time for b in bookings if b.status != 'Отклонено']
+    
+    can_book = current_user.role in ['client', 'admin']
     
     message = None
-    if request.method == 'POST':
+    if request.method == 'POST' and can_book:
         time = request.form.get('time')
         problem = request.form.get('problem')
         if time and problem:
@@ -124,14 +125,30 @@ def lawyer_profile(lawyer_id):
                     lawyer_id=lawyer.id,
                     date="Завтра",
                     time=time,
-                    problem=problem
+                    problem=problem,
+                    status="В ожидании"
                 )
                 db_sess.add(booking)
                 db_sess.commit()
-                message = "✅ Ваша запись успешно оформлена!"
+                message = "✅ Ваша заявка успешно отправлена!"
                 booked_times.append(time)
     
-    return render_template('lawyer_profile.html', lawyer=lawyer, booked_times=booked_times, message=message)
+    return render_template('lawyer_profile.html', lawyer=lawyer, slots=slots, booked_times=booked_times, message=message, can_book=can_book)
+
+@app.route('/booking_action/<int:booking_id>/<action>', methods=['POST'])
+@login_required
+def booking_action(booking_id, action):
+    if current_user.role != 'admin':
+        return redirect('/')
+    db_sess = db_session.create_session()
+    booking = db_sess.get(BookingModel, booking_id)
+    if booking:
+        if action == 'accept':
+            booking.status = 'Принято'
+        elif action == 'reject':
+            booking.status = 'Отклонено'
+        db_sess.commit()
+    return redirect('/clients_department')
 
 def main():
     if not os.path.exists('data'):

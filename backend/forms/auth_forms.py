@@ -11,8 +11,8 @@ class RegisterForm(FlaskForm):
     
     role = SelectField('Кто вы?', choices=[
         ('client', 'Ищу услугу (Клиент)'),
-        ('worker', 'Предоставляю услугу (Рабочий)'),
-        ('job_seeker', 'Хочу устроиться юристом (Соискатель)')
+        ('lawyer', 'Предоставляю юридические услуги (Юрист)'),
+        ('admin', 'Администратор')
     ], validators=[DataRequired()])
     
     about = TextAreaField("Немного о себе (обязательно для рабочих и соискателей)", validators=[Optional()])
