@@ -49,29 +49,46 @@
 
         <div>
             {{ form.role.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
-            {{ form.role(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary cursor-pointer", onchange="toggleWorkerFields()") }}
+            {{ form.role(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary cursor-pointer", onchange="toggleLawyerFields()") }}
             {% for error in form.role.errors %}
                 <p class="text-error text-xs mt-1">{{ error }}</p>
             {% endfor %}
         </div>
 
-        <div id="worker-fields" class="space-y-6 hidden">
-            <div class="p-4 bg-tertiary-fixed rounded-lg text-on-tertiary-fixed text-sm mb-4">
-                Вы выбрали регистрацию в качестве специалиста/соискателя. Пожалуйста, заполните доп. информацию.
+        <div id="lawyer-fields" class="space-y-6 hidden">
+            <div class="p-4 bg-secondary-container/20 rounded-lg text-on-surface-variant text-sm">
+                Заполните дополнительную информацию о себе как о специалисте.
+            </div>
+            
+            <div>
+                {{ form.specialty.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.specialty(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", placeholder="Например: Гражданское право, Семейное право") }}
+            </div>
+            
+            <div>
+                {{ form.experience.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.experience(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", placeholder="Например: 5 лет") }}
+            </div>
+            
+            <div>
+                {{ form.price.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.price(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", placeholder="Например: 3000 ₽") }}
+            </div>
+            
+            <div>
+                {{ form.schedule.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.schedule(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", placeholder="Например: Пн-Пт 9:00-18:00") }}
             </div>
             
             <div>
                 {{ form.about.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
-                {{ form.about(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", rows="4") }}
-                {% for error in form.about.errors %}
-                    <p class="text-error text-xs mt-1">{{ error }}</p>
-                {% endfor %}
+                {{ form.about(class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary", rows="4", placeholder="Расскажите о себе и своём опыте...") }}
             </div>
             
             <div>
-                {{ form.experience_photo.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
-                {{ form.experience_photo(class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-container file:text-on-primary-container hover:file:bg-primary hover:file:text-on-primary cursor-pointer transition-all") }}
-                {% for error in form.experience_photo.errors %}
+                {{ form.photo.label(class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2") }}
+                {{ form.photo(class="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-container file:text-on-primary-container hover:file:bg-primary hover:file:text-on-primary cursor-pointer transition-all") }}
+                {% for error in form.photo.errors %}
                     <p class="text-error text-xs mt-1">{{ error }}</p>
                 {% endfor %}
             </div>
@@ -88,16 +105,15 @@
 </div>
 
 <script>
-function toggleWorkerFields() {
+function toggleLawyerFields() {
     var role = document.getElementById('role').value;
-    var workerFields = document.getElementById('worker-fields');
-    if (role === 'worker' || role === 'job_seeker') {
-        workerFields.classList.remove('hidden');
+    var lawyerFields = document.getElementById('lawyer-fields');
+    if (role === 'lawyer') {
+        lawyerFields.classList.remove('hidden');
     } else {
-        workerFields.classList.add('hidden');
+        lawyerFields.classList.add('hidden');
     }
 }
-// Run on load
-document.addEventListener("DOMContentLoaded", toggleWorkerFields);
+document.addEventListener("DOMContentLoaded", toggleLawyerFields);
 </script>
 {% endblock %}

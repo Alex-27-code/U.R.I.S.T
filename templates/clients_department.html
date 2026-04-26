@@ -5,8 +5,7 @@
     <header class="mb-12">
         <h1 class="text-4xl font-semibold text-primary mb-4">Отдел клиентов</h1>
         <p class="text-lg text-on-surface-variant">
-            Добро пожаловать в панель управления для юристов и соискателей. 
-            Здесь вы можете просматривать доступные заказы и запросы (Тестовый режим: сейчас видны все заявки).
+            Здесь отображаются все заявки от клиентов. Принимайте или отклоняйте заявки.
         </p>
     </header>
 
@@ -14,35 +13,43 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {% for b in bookings %}
         <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm relative">
-            <div class="absolute top-4 right-4 bg-secondary text-on-secondary text-xs font-bold px-3 py-1 rounded-lg">
+            <div class="absolute top-4 right-4 text-xs font-bold px-3 py-1 rounded-lg 
+                {% if b.status == 'pending' %}bg-yellow-100 text-yellow-800
+                {% elif b.status == 'accepted' %}bg-green-100 text-green-800
+                {% else %}bg-red-100 text-red-800{% endif %}">
                 {{ b.date }} | {{ b.time }}
             </div>
-            <h3 class="text-xl font-bold text-primary mb-2 pt-6">{{ b.client.name }}</h3>
+            <h3 class="text-xl font-bold text-primary mb-2 pt-6">{{ b.client.name if b.client else 'Клиент' }}</h3>
             <div class="space-y-3 mb-4">
+                {% if b.lawyer %}
                 <p class="text-sm">
-                    <span class="text-on-surface-variant font-medium">К юристу:</span> 
+                    <span class="text-on-surface-variant font-medium">Юрист:</span> 
                     <span class="text-primary font-semibold">{{ b.lawyer.name }}</span>
                 </p>
+                {% endif %}
                 <div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/20">
-                    <p class="text-xs text-on-surface-variant tracking-wider uppercase font-bold mb-1">Проблема клиента:</p>
+                    <p class="text-xs text-on-surface-variant tracking-wider uppercase font-bold mb-1">Вопрос клиента:</p>
                     <p class="text-primary text-sm">{{ b.problem }}</p>
                 </div>
             </div>
             
             <div class="mt-4 pt-4 border-t border-outline-variant/30">
-                {% if b.status == 'В ожидании' %}
+                {% if b.status == 'pending' %}
                 <div class="flex gap-2">
                     <form action="/booking_action/{{ b.id }}/accept" method="POST" class="flex-1">
                         <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">Принять</button>
                     </form>
                     <form action="/booking_action/{{ b.id }}/reject" method="POST" class="flex-1">
-                        <button type="submit" class="w-full bg-error text-on-error py-2 rounded-lg text-sm font-semibold hover:bg-error-container hover:text-on-error-container transition">Отклонить</button>
+                        <button type="submit" class="w-full bg-error text-white py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">Отклонить</button>
                     </form>
                 </div>
                 {% else %}
                 <div class="text-center w-full py-2 rounded-lg text-sm font-bold border border-outline-variant/20">
-                    Статус: <span class="{% if b.status == 'Принято' %}text-emerald-600{% else %}text-error{% endif %}">{{ b.status }}</span>
+                    Статус: 
+                    {% if b.status == 'accepted' %}<span class="text-emerald-600">Принято ✓</span>
+                    {% else %}<span class="text-error">Отклонено ✗</span>{% endif %}
                 </div>
+                <a href="/admin/booking/{{ b.id }}/delete" onclick="return confirm('Удалить заявку?')" class="block text-center mt-2 text-error hover:underline text-xs">Удалить заявку</a>
                 {% endif %}
             </div>
         </div>
@@ -51,9 +58,9 @@
     {% else %}
     <div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20 shadow-sm text-center py-20">
         <span class="material-symbols-outlined text-6xl text-outline mb-4">inbox</span>
-        <h2 class="text-2xl font-semibold text-primary mb-2">Заказов пока нет</h2>
+        <h2 class="text-2xl font-semibold text-primary mb-2">Заявок пока нет</h2>
         <p class="text-on-surface-variant">
-            В данный момент нет открытых заявок от клиентов. Возвращайтесь позже!
+            Когда клиенты отправят заявки, они появятся здесь.
         </p>
     </div>
     {% endif %}

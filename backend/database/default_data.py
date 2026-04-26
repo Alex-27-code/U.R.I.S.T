@@ -1,37 +1,52 @@
-import os
-from backend.database import db_session
+from backend.database import create_session
 from backend.database.models.users_model import UserModel
+from backend.database.models.settings_model import SettingsModel
+
 
 def default_data():
-    db_sess = db_session.create_session()
-    
-    # Check if we already have users
-    if db_sess.query(UserModel).first():
-        return
-        
-    lawyer1 = UserModel(
-        name="Алексей Смирнов",
-        email="smirnov@lawyer.ru",
-        about="Опытный юрист по семейному праву. Проведу подробную консультацию.",
-        role="lawyer"
-    )
-    lawyer1.set_password("123")
-    
-    lawyer2 = UserModel(
-        name="Елена Васильева",
-        email="vasilyeva@lawyer.ru",
-        about="Специалист по гражданским делам. Помогу разобраться с документами.",
-        role="lawyer"
-    )
-    lawyer2.set_password("123")
-    
-    admin = UserModel(
-        name="Администратор",
-        email="admin@mail.ru",
-        about="Владелец портала.",
-        role="admin"
-    )
-    admin.set_password("admin")
+    db_sess = create_session()
+    if not db_sess.query(UserModel).filter(UserModel.email == "admin@mail.ru").first():
+        admin = UserModel()
+        admin.email = "admin@mail.ru"
+        admin.name = "Администратор"
+        admin.set_password("admin")
+        admin.role = "admin"
+        db_sess.add(admin)
 
-    db_sess.add_all([lawyer1, lawyer2, admin])
+    if not db_sess.query(UserModel).filter(UserModel.email == "smirnov@lawyer.ru").first():
+        u = UserModel()
+        u.email = "smirnov@lawyer.ru"
+        u.name = "Алексей Смирнов"
+        u.set_password("123")
+        u.role = "lawyer"
+        u.specialty = "Гражданское право"
+        u.experience = "8 лет"
+        u.price = "2500 р/час"
+        u.schedule = "Пн-Пт 9:00-18:00"
+        u.about = "Опытный юрист по гражданским делам"
+        db_sess.add(u)
+
+    if not db_sess.query(UserModel).filter(UserModel.email == "vasilyeva@lawyer.ru").first():
+        u = UserModel()
+        u.email = "vasilyeva@lawyer.ru"
+        u.name = "Елена Васильева"
+        u.set_password("123")
+        u.role = "lawyer"
+        u.specialty = "Семейное право"
+        u.experience = "5 лет"
+        u.price = "2000 р/час"
+        u.schedule = "Пн-Сб 10:00-17:00"
+        u.about = "Специалист по семейному праву"
+        db_sess.add(u)
+
     db_sess.commit()
+
+    if not db_sess.query(SettingsModel).filter(SettingsModel.id == 1).first():
+        s = SettingsModel()
+        s.id = 1
+        s.about_text = 'Мы — команда профессиональных юристов, готовых помочь вам в любых правовых вопросах. Ю.Р.И.С.Т. — ваш надёжный партнёр в юридических делах.'
+        s.contact_text = 'Свяжитесь с нами для консультации.'
+        s.phone = '+7 (999) 123-45-67'
+        s.address = 'Москва, ул. Примерная, д. 1'
+        db_sess.add(s)
+        db_sess.commit()

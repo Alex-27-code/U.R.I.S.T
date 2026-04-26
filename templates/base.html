@@ -86,11 +86,10 @@
 <title>{{ title|default('Ю.Р.И.С.Т.') }}</title>
 </head>
 <body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
-<!-- TopNavBar -->
 <nav class="sticky top-0 z-50 bg-surface-container-lowest border-b border-outline-variant/20 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel">gavel</span>
+            <span class="material-symbols-outlined text-secondary text-3xl">gavel</span>
             <a href="/" class="text-xl font-semibold text-primary tracking-tight">Ю.Р.И.С.Т.</a>
         </div>
         <div class="hidden md:flex items-center gap-12">
@@ -98,8 +97,13 @@
                 <a class="nav-link hover:text-secondary transition-colors" href="/#home-section">Главная</a>
                 <a class="nav-link hover:text-secondary transition-colors" href="/#about-section">О нас</a>
                 <a class="nav-link hover:text-secondary transition-colors" href="/#contacts-section">Контакты</a>
-                {% if current_user.is_authenticated and current_user.role != 'client' %}
-                    <a class="nav-link hover:text-secondary transition-colors" href="/clients_department">Отдел клиентов</a>
+                {% if current_user.is_authenticated and current_user.role == 'lawyer' %}
+                    <a class="nav-link hover:text-secondary transition-colors" href="/profile">Мой профиль</a>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <a class="nav-link hover:text-secondary transition-colors" href="/clients_department">Заявки</a>
+                    <a class="nav-link hover:text-secondary transition-colors" href="/users">Пользователи</a>
+                    <a class="nav-link hover:text-secondary transition-colors" href="/admin/settings">Настройки</a>
                 {% endif %}
             </div>
             
@@ -110,7 +114,7 @@
                 </div>
             {% else %}
                 <a href="/login" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-medium hover:bg-primary-container transition-all">
-                    Войти / Записаться
+                    Войти
                 </a>
             {% endif %}
         </div>
@@ -122,33 +126,26 @@
     {% endblock %}
 </main>
 
-<!-- Footer -->
 <footer class="bg-primary-container text-on-primary-container py-16 px-6 mt-auto">
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 border-b border-outline-variant/10 pb-12 mb-12">
             <div>
                 <div class="flex items-center gap-2 mb-4">
-                    <span class="material-symbols-outlined text-secondary text-3xl" data-icon="gavel">gavel</span>
+                    <span class="material-symbols-outlined text-secondary text-3xl">gavel</span>
                     <span class="text-xl font-semibold text-on-primary tracking-tight">Ю.Р.И.С.Т.</span>
                 </div>
                 <p class="max-w-sm text-sm leading-relaxed opacity-70">
-                    Ваш надежный партнер в юридических вопросах. Современные решения для правовой защиты.
+                    Ваш надёжный партнёр в юридических вопросах.
                 </p>
             </div>
             <div class="flex flex-wrap gap-x-12 gap-y-6">
                 <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#home-section">Главная</a>
                 <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#about-section">О нас</a>
                 <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="/#contacts-section">Контакты</a>
-                <a class="text-sm font-bold uppercase tracking-widest hover:text-secondary transition-colors" href="#">Политика конфиденциальности</a>
             </div>
         </div>
         <div class="flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-xs opacity-50">© 2024 Ю.Р.И.С.Т. Все права защищены.</p>
-            <div class="flex gap-6">
-                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="phone">phone</span>
-                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="mail">mail</span>
-                <span class="material-symbols-outlined opacity-50 hover:opacity-100 cursor-pointer transition-opacity" data-icon="location_on">location_on</span>
-            </div>
         </div>
     </div>
 </footer>

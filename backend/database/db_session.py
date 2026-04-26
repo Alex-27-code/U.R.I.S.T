@@ -1,11 +1,10 @@
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
-from sqlalchemy.orm import Session
-import sqlalchemy.ext.declarative as dec
 
-SqlAlchemyBase = dec.declarative_base()
+SqlAlchemyBase = orm.declarative_base()
 
 __factory = None
+
 
 def global_init(db_file):
     global __factory
@@ -14,18 +13,28 @@ def global_init(db_file):
         return
 
     if not db_file or not db_file.strip():
-        raise Exception("Необходимо указать файл базы данных.")
+        raise Exception("db not init")
 
-    conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'
-    print(f"Подключение к базе данных по адресу {conn_str}")
+    import backend.database.models.users_model
+    import backend.database.models.booking_model
 
+    import os
+    db_path = db_file.strip()
+    folder = os.path.dirname(db_path)
+    if folder and not os.path.exists(folder):
+        os.makedirs(folder, exist_ok=True)
+
+    conn_str = f'sqlite:///{db_path}?check_same_thread=False'
     engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine)
 
-    from . import __all_models
-
     SqlAlchemyBase.metadata.create_all(engine)
 
-def create_session() -> Session:
+
+def create_session():
     global __factory
+    if __factory is None:
+        raise Exception("db not init")
     return __factory()
+
+

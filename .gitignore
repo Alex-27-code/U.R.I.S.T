@@ -1,9 +1,6 @@
 __pycache__/
-*.py[cod]
-*$py.class
-env/
-venv/
+*.pyc
+data/urist.db
+data/*.db
 .env
-data/
-*.db
-*.sqlite3
+*.sqlite
