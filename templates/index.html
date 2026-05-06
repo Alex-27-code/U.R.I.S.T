@@ -77,14 +77,86 @@
 </div>
 
 <div id="contacts-section" class="tab-content hidden">
-<header class="mb-20">
+<header class="mb-12">
 <h1 class="text-6xl font-semibold text-primary mb-6 max-w-3xl leading-[1.1]">Контакты</h1>
-<p class="text-xl text-on-surface-variant max-w-2xl leading-relaxed">
-Свяжитесь с нами любым удобным способом:<br>
-Телефон: +7 (999) 123-45-67<br>
-Email: info@urist-zapis.ru<br>
-Адрес: г. Москва, ул. Правовая, д. 1
-</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl">
+    <div>
+        <div class="space-y-4 text-on-surface-variant mb-8">
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-secondary mt-0.5">phone</span>
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-wider text-on-surface-variant/60 mb-1">Телефон</p>
+                    <p class="text-lg text-primary">{{ settings.phone if settings else '+7 (985) 541-93-49' }}</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-secondary mt-0.5">mail</span>
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-wider text-on-surface-variant/60 mb-1">Email</p>
+                    <p class="text-lg text-primary">aeb27079@gmail.com</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-secondary mt-0.5">location_on</span>
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-wider text-on-surface-variant/60 mb-1">Адрес</p>
+                    <p class="text-lg text-primary">{{ settings.address if settings else 'Детский технопарк Альтаир РТУ МИРЭА' }}</p>
+                    <a href="https://yandex.ru/maps/org/detskiy_tekhnopark_altair_rtu_mirea/121334629081/?ll=37.476181%2C55.660972&z=14"
+                       target="_blank"
+                       class="text-secondary hover:underline text-sm mt-1 inline-flex items-center gap-1">
+                        <span class="material-symbols-outlined text-base">open_in_new</span>
+                        Открыть на Яндекс Картах
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="rounded-xl overflow-hidden border border-outline-variant/30 h-48">
+            <iframe
+                src="https://yandex.ru/map-widget/v1/?ll=37.476181%2C55.660972&z=15&pt=37.476181,55.660972,pm2rdm"
+                width="100%" height="100%" frameborder="0" allowfullscreen loading="lazy"
+                class="block">
+            </iframe>
+        </div>
+    </div>
+
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30">
+        <h2 class="text-2xl font-semibold text-primary mb-4">Обратная связь</h2>
+        {% if feedback_sent %}
+            <div class="bg-surface-container p-4 rounded-lg text-secondary font-medium text-center">
+                Сообщение отправлено! Мы свяжемся с вами в ближайшее время.
+            </div>
+        {% elif feedback_error %}
+            <div class="bg-error-container text-on-error-container p-4 rounded-lg mb-4 text-sm">
+                {{ feedback_error }}
+            </div>
+        {% endif %}
+        <form method="post" action="/feedback#contacts-section" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Ваше имя</label>
+                <input type="text" name="sender_name" required
+                    class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-primary border-none focus:ring-2 focus:ring-secondary/50 outline-none"
+                    placeholder="Иванов Иван Иванович">
+            </div>
+            <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Ваш email</label>
+                <input type="email" name="sender_email" required
+                    class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-primary border-none focus:ring-2 focus:ring-secondary/50 outline-none"
+                    placeholder="your@email.com">
+            </div>
+            <div>
+                <label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Сообщение</label>
+                <textarea name="message" rows="4" required
+                    class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-primary border-none focus:ring-2 focus:ring-secondary/50 outline-none resize-none"
+                    placeholder="Опишите ваш вопрос..."></textarea>
+            </div>
+            <button type="submit"
+                class="w-full bg-primary text-on-primary py-3 rounded-lg font-semibold hover:bg-primary-container transition-all cursor-pointer">
+                Отправить
+            </button>
+        </form>
+    </div>
+</div>
 </header>
 </div>
 
@@ -99,11 +171,15 @@ window.addEventListener('hashchange', () => {
         showSection(hash);
     }
 });
-if (window.location.hash) {
+document.addEventListener('DOMContentLoaded', () => {
     let hash = window.location.hash.substring(1);
     if (['home-section', 'about-section', 'contacts-section'].includes(hash)) {
         showSection(hash);
     }
-}
+    {% if feedback_sent or feedback_error %}
+    showSection('contacts-section');
+    history.replaceState(null, '', '#contacts-section');
+    {% endif %}
+});
 </script>
 {% endblock %}

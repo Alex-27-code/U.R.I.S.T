@@ -22,6 +22,7 @@
         {% endwith %}
 
         <form method="post" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div>
                 <label class="block text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">ФИО</label>
                 <input type="text" name="name" value="{{ user.name or '' }}" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary/50 text-primary">

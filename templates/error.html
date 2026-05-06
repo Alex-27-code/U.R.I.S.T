@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="error-container" data-error-type="{{ error_code }}">
-    <div class="error-content">
-        <div class="error-icon">
-            <i class="{{ icon_class }}"></i>
-        </div>
-        <h1 class="error-title">{{ error_title }}</h1>
-        <p class="error-message">{{ error_message }}</p>
-        <div class="error-code">Код ошибки: {{ error_code }}</div>
-        <a href="{{ url_for('index') }}" class="error-btn">
-            <i class="fas fa-home"></i> Вернуться на главную
-        </a>
+<div class="flex flex-col items-center justify-center min-h-[50vh] text-center py-20">
+    <div class="text-8xl font-bold text-secondary/20 mb-4 select-none">{{ error_code }}</div>
+    <h1 class="text-3xl font-semibold text-primary mb-4">{{ error_title }}</h1>
+    <p class="text-on-surface-variant max-w-md leading-relaxed mb-8">{{ error_message }}</p>
+    <div class="flex items-center gap-2 text-xs text-on-surface-variant/50 mb-8 font-mono bg-surface-container px-4 py-2 rounded-lg">
+        <span>Код ошибки:</span>
+        <span class="font-bold text-secondary">{{ error_code }}</span>
     </div>
+    <a href="{{ url_for('index') }}"
+       class="bg-primary text-on-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary-container transition-all inline-flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">home</span>
+        На главную
+    </a>
 </div>
 {% endblock %}

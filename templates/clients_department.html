@@ -37,9 +37,11 @@
                 {% if b.status == 'pending' %}
                 <div class="flex gap-2">
                     <form action="/booking_action/{{ b.id }}/accept" method="POST" class="flex-1">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">Принять</button>
                     </form>
                     <form action="/booking_action/{{ b.id }}/reject" method="POST" class="flex-1">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="w-full bg-error text-white py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">Отклонить</button>
                     </form>
                 </div>

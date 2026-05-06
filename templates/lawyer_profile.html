@@ -82,6 +82,7 @@
                 {% endif %}
 
                 <form method="post" class="space-y-8">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Дата</label>
                         <input type="date" name="date" required min="{{ min_date }}" value="{{ selected_date if selected_date else '' }}"
@@ -133,6 +134,13 @@
 </div>
 
 <script>
-document.querySelector('input[name="date"]').min = new Date().toISOString().split('T')[0];
+const dateInput = document.querySelector('input[name="date"]');
+dateInput.min = new Date().toISOString().split('T')[0];
+dateInput.addEventListener('change', function () {
+    const url = new URL(window.location.href);
+    url.searchParams.set('date', this.value);
+    url.searchParams.delete('booked');
+    window.location.href = url.toString();
+});
 </script>
 {% endblock %}
