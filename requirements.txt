@@ -1,9 +1,6 @@
-requests
 flask
 flask-wtf
-sqlalchemy
 flask-login
-SQLAlchemy-serializer
-flask-restful
-alembic
-python-dotenv
+sqlalchemy
+werkzeug
+gunicorn

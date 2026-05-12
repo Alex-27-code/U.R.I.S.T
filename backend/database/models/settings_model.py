@@ -1,4 +1,3 @@
-"""Модель настроек сайта (единственная запись с id=1)."""
 import sqlalchemy
 from backend.database.db_session import SqlAlchemyBase
 

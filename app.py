@@ -15,6 +15,7 @@ from backend.database import global_init, create_session, SqlAlchemyBase
 from backend.database.models.users_model import UserModel
 from backend.database.models.booking_model import BookingModel
 from backend.database.models.settings_model import SettingsModel
+from backend.database.models.feedback_model import FeedbackModel
 from config import SECRET_KEY, UPLOAD_FOLDER, MAIL_USER, MAIL_PASS, MAIL_TO
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
@@ -147,6 +148,10 @@ def feedback():
         session['_feedback_error'] = 'Пожалуйста, заполните все поля.'
         return redirect('/#contacts-section')
 
+    fb = FeedbackModel(sender_name=sender_name, sender_email=sender_email, message=message)
+    _db().add(fb)
+    _db().commit()
+
     if MAIL_USER and MAIL_PASS:
         try:
             msg = MIMEMultipart()
@@ -256,14 +261,12 @@ def lawyer_profile(lawyer_id):
             )
             db_sess.add(booking)
             db_sess.commit()
-            # PRG: redirect keeps date in URL so F5 shows the correct date
             return redirect(url_for('lawyer_profile', lawyer_id=lawyer_id, date=date, booked='1'))
         elif time_val in booked_slots.get(date, []):
             message = 'Это время уже занято.'
     else:
         booked_slots = load_booked()
 
-    # Date priority: query param (from PRG redirect) → form → today
     selected_date = request.args.get('date') or request.form.get('date') or datetime.date.today().isoformat()
     if request.args.get('booked'):
         message = 'Заявка отправлена! Ожидайте подтверждения.'
@@ -403,6 +406,33 @@ def admin_edit_user(user_id):
     return render_template('admin_edit_user.html', user=user)
 
 
+@app.route('/admin/feedback')
+@login_required
+def admin_feedback():
+    if current_user.role != 'admin':
+        return redirect('/')
+    db_sess = _db()
+    messages = db_sess.query(FeedbackModel).order_by(FeedbackModel.created_at.desc()).all()
+    unread = sum(1 for m in messages if not m.is_read)
+    for m in messages:
+        m.is_read = True
+    db_sess.commit()
+    return render_template('admin_feedback.html', messages=messages, unread=unread)
+
+
+@app.route('/admin/feedback/<int:msg_id>/delete', methods=['GET'])
+@login_required
+def admin_feedback_delete(msg_id):
+    if current_user.role != 'admin':
+        return redirect('/')
+    db_sess = _db()
+    msg = db_sess.get(FeedbackModel, msg_id)
+    if msg:
+        db_sess.delete(msg)
+        db_sess.commit()
+    return redirect('/admin/feedback')
+
+
 @app.route('/admin/booking/<int:booking_id>/delete', methods=['GET'])
 @login_required
 def admin_delete_booking(booking_id):
@@ -416,13 +446,3 @@ def admin_delete_booking(booking_id):
     return redirect('/clients_department')
 
 
-def start_server():
-    import backend.database.default_data as _dd
-    from config import DATABASE_PATH, HOST, PORT
-    global_init(DATABASE_PATH)
-    _dd.default_data()
-    app.run(port=PORT, host=HOST, debug=False)
-
-
-if __name__ == '__main__':
-    start_server()

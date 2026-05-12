@@ -17,6 +17,7 @@ def global_init(db_file):
 
     import backend.database.models.users_model
     import backend.database.models.booking_model
+    import backend.database.models.feedback_model
 
     import os
     db_path = db_file.strip()

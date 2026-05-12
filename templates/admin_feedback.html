@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <header class="mb-10">
+        <h1 class="text-4xl font-semibold text-primary mb-2">Обращения в поддержку</h1>
+        <p class="text-on-surface-variant">Сообщения из формы обратной связи.</p>
+    </header>
+
+    {% if messages %}
+    <div class="space-y-4">
+        {% for m in messages %}
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm">
+            <div class="flex items-start justify-between gap-4 mb-3">
+                <div>
+                    <p class="font-bold text-primary text-lg">{{ m.sender_name }}</p>
+                    <a href="mailto:{{ m.sender_email }}" class="text-secondary text-sm hover:underline">{{ m.sender_email }}</a>
+                </div>
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <span class="text-xs text-on-surface-variant">
+                        {{ m.created_at.strftime('%d.%m.%Y %H:%M') if m.created_at else '' }}
+                    </span>
+                    <a href="/admin/feedback/{{ m.id }}/delete"
+                       onclick="return confirm('Удалить обращение?')"
+                       class="text-error hover:text-red-700 transition-colors">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                    </a>
+                </div>
+            </div>
+            <div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/10 text-primary text-sm leading-relaxed whitespace-pre-wrap">{{ m.message }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-surface-container-lowest p-12 rounded-xl border border-outline-variant/20 text-center">
+        <span class="material-symbols-outlined text-6xl text-outline mb-4 block">mail</span>
+        <h2 class="text-2xl font-semibold text-primary mb-2">Обращений пока нет</h2>
+        <p class="text-on-surface-variant">Сообщения из формы обратной связи появятся здесь.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

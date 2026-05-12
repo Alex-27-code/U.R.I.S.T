@@ -1,4 +1,3 @@
-"""Модель записи на консультацию к юристу."""
 import sqlalchemy
 from backend.database.db_session import SqlAlchemyBase
 

@@ -1,6 +1,3 @@
-"""User model – admin, lawyer, or client.
-Contains fields common to all users and optional lawyer-specific fields.
-"""
 from datetime import datetime
 
 import sqlalchemy
@@ -21,7 +18,6 @@ class UserModel(SqlAlchemyBase, UserMixin):
 
     role = sqlalchemy.Column(sqlalchemy.String, default='client')
 
-    # Поля, специфичные для юристов
     specialty = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     experience = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     price = sqlalchemy.Column(sqlalchemy.String, nullable=True)
@@ -29,11 +25,9 @@ class UserModel(SqlAlchemyBase, UserMixin):
     photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def set_password(self, password):
-        """Хеширует и сохраняет пароль."""
         self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
-        """Проверяет пароль по хешу."""
         return check_password_hash(self.hashed_password, password)
 
     def __repr__(self):
